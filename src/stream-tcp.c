@@ -410,6 +410,11 @@ void StreamTcpInitConfig(char quiet)
     const char *temp_stream_inline_str;
     if (ConfGet("stream.inline", &temp_stream_inline_str) == 1) {
         int inl = 0;
+        
+	if (temp_stream_inline_str == NULL) {
+            SCLogError (SC_ERR_INVALID_YAML_CONF_ENTRY, "malformed value for stream.inline: NULL");
+	    exit(EXIT_FAILURE);
+        }
 
         /* checking for "auto" and falling back to boolean to provide
          * backward compatibility */
